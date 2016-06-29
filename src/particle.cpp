@@ -1,11 +1,12 @@
 #include "particle.h"
 #include "math.h"
+#include "ofMath.h"
 
 Particle::Particle(int scl, int cols) {
-  pos = ofVec2f(ofRandom(0, ofWidth), ofRandom(0, ofHeight));
+  pos = ofVec2f(ofRandom(0, 1) * ofGetWindowWidth(), ofRandom(0, 1) * ofGetWindowHeight());
   prevPos = pos;
-  this.scl = scl;
-  this.cols = cols;
+  this->scl = scl;
+  this->cols = cols;
 }
 
 void Particle::update() {
