@@ -6,17 +6,19 @@ void ofApp::setup(){
   //* setup gui
   gui.setup();
   gui.add(incSlider.setup("x/y increase", 0.25, 0.0001, 0.5));
-  gui.add(zincSlider.setup("z increase", 0.0003, 0.00001, 0.5));
+  gui.add(zincSlider.setup("z increase", 0.0003, 0.00001, 0.02));
   gui.add(drawField.setup("Draw Field", false));
+  gui.add(onSphere.setup("Draw Sphere", false));
   gui.add(bgAlpha.setup("bg alpha", 1, 0, 255));
   gui.add(fgAlpha.setup("fg alpha", 25, 0, 255));
   gui.add(forceSlider.setup("force", 4, 1, 10));
+  gui.add(maxSpeedSlider.setup("max speed", 4, 1, 10));
 
   int width = ofGetWindowWidth();
   int height = ofGetWindowHeight();
 
-  cols = floor(width / scl);
-  rows = floor(height / scl);
+  cols = floor(width / scl)+1;
+  rows = floor(height / scl)+1;
 
   particles.reserve(NUM_PARTICLES);
   flowfield.reserve(cols * rows);
@@ -92,9 +94,17 @@ void ofApp::draw(){
     }
   }
 
-
-  for (int i = 0; i < particles.size(); i++) {
-    particles.at(i).show(fgAlpha);
+  if (onSphere) {
+    camera.begin();
+    for (int i = 0; i < particles.size(); i++) {
+      particles.at(i).show3d(fgAlpha);
+    }
+    camera.end();
+  }
+  else {
+    for (int i = 0; i < particles.size(); i++) {
+      particles.at(i).show(fgAlpha);
+    }
   }
 
   gui.draw();

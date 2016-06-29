@@ -23,13 +23,16 @@ class ofApp : public ofBaseApp{
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     float inc = 0.3;
-    int scl = 10;
+    int scl = 50;
     float zoff = 0;
     int rows;
     int cols;
     vector<Particle> particles;
     vector<ofVec2f> flowfield;
-    const int NUM_PARTICLES = 2500;
+
+    ofEasyCam camera;
+
+    const int NUM_PARTICLES = 20000;
     bool doSaveScreen = false;
 
     // gui
@@ -37,8 +40,10 @@ class ofApp : public ofBaseApp{
     ofxFloatSlider incSlider;
     ofxFloatSlider zincSlider;
     ofxToggle drawField;
+    ofxToggle onSphere;
 
     ofxIntSlider bgAlpha;
     ofxIntSlider fgAlpha;
     ofxIntSlider forceSlider;
+    ofxIntSlider maxSpeedSlider;
 };

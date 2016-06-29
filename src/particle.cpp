@@ -1,6 +1,7 @@
 #include "particle.h"
 #include "math.h"
 #include "ofMath.h"
+#include "ofApp.h"
 
 Particle::Particle(int scl, int cols) {
   pos = ofVec2f(ofRandom(0, 1) * ofGetWindowWidth(), ofRandom(0, 1) * ofGetWindowHeight());
@@ -8,18 +9,30 @@ Particle::Particle(int scl, int cols) {
   this->scl = scl;
   this->cols = cols;
   color = ofColor(
-      ofRandom(0, 1) > 0.5 ? 255 : 0,
-      ofRandom(0, 1) > 0.5 ? 255 : 0,
-      ofRandom(0, 1) > 0.5 ? 255 : 0,
+      ofRandom(0, 1) > 0.9 ? 200 : 0,
+      ofRandom(0, 1) > 0.9 ? 200 : 0,
+      ofRandom(0, 1) > 0.0 ? 255 : 0,
       25
       );
 }
 
 void Particle::update() {
   vel += acc;
+  maxSpeed = ((ofApp*) ofGetAppPtr())->maxSpeedSlider;
   vel.limit(maxSpeed);
   pos += vel;
   acc *= 0;
+  update3d();
+}
+
+void Particle::update3d() {
+  float lon = ofMap(pos.x, 0, ofGetWindowWidth(), 0, PI);
+  float lat = ofMap(pos.y, 0, ofGetWindowHeight(), 0, TWO_PI);
+  pos3d.set(
+      radius * sin(lon) * cos(lat),
+      radius * sin(lon) * sin(lat),
+      radius * cos(lon)
+      );
 }
 
 void Particle::follow(vector<ofVec2f> vectors) {
@@ -39,17 +52,30 @@ void Particle::applyForce(ofVec2f force) {
 }
 
 void Particle::show(int alpha) {
-  ofFill();
+  ofNoFill();
   ofSetColor(color.r, color.g, color.b, alpha);
 
   ofSetLineWidth(1);
   ofDrawLine(pos.x, pos.y, prevPos.x, prevPos.y);
+  updatePrev();
+}
 
+
+void Particle::show3d(int alpha) {
+  ofNoFill();
+  ofSetColor(color.r, color.g, color.b, alpha);
+
+  ofSetLineWidth(1);
+  ofBeginShape();
+  ofVertex(prevPos3d);
+  ofVertex(pos3d);
+  ofEndShape(false);
   updatePrev();
 }
 
 void Particle::updatePrev() {
   prevPos.set(pos);
+  prevPos3d.set(pos3d);
 }
 
 void Particle::edges() {
