@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "particle.h"
+#include "ofxGui.h"
 
 class ofApp : public ofBaseApp{
 
@@ -22,7 +23,7 @@ class ofApp : public ofBaseApp{
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     float inc = 0.3;
-    int scl = 20;
+    int scl = 10;
     float zoff = 0;
     int rows;
     int cols;
@@ -30,4 +31,14 @@ class ofApp : public ofBaseApp{
     vector<ofVec2f> flowfield;
     const int NUM_PARTICLES = 2500;
     bool doSaveScreen = false;
+
+    // gui
+    ofxPanel gui;
+    ofxFloatSlider incSlider;
+    ofxFloatSlider zincSlider;
+    ofxToggle drawField;
+
+    ofxIntSlider bgAlpha;
+    ofxIntSlider fgAlpha;
+    ofxIntSlider forceSlider;
 };

@@ -12,12 +12,13 @@ class Particle {
     int h = 0;
     int cols;
     int scl;
+    ofColor color;
 
   public:
     void update();
     void follow(vector<ofVec2f> vectors);
     void applyForce(ofVec2f forcd);
-    void show();
+    void show(int alpha);
     void updatePrev();
     void edges();
 

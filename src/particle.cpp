@@ -7,6 +7,12 @@ Particle::Particle(int scl, int cols) {
   prevPos = pos;
   this->scl = scl;
   this->cols = cols;
+  color = ofColor(
+      ofRandom(0, 1) > 0.5 ? 255 : 0,
+      ofRandom(0, 1) > 0.5 ? 255 : 0,
+      ofRandom(0, 1) > 0.5 ? 255 : 0,
+      25
+      );
 }
 
 void Particle::update() {
@@ -32,16 +38,13 @@ void Particle::applyForce(ofVec2f force) {
   acc += force;
 }
 
-void Particle::show() {
+void Particle::show(int alpha) {
   ofFill();
-  ofSetColor(255, 255, h, 25);
-  h = h + 1;
-  if (h > 255) {
-    h = 0;
-  }
+  ofSetColor(color.r, color.g, color.b, alpha);
+
   ofSetLineWidth(1);
   ofDrawLine(pos.x, pos.y, prevPos.x, prevPos.y);
-  //ofDrawCircle(pos.x, pos.y, 3);
+
   updatePrev();
 }
 
