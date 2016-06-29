@@ -20,8 +20,12 @@ void Particle::follow(vector<ofVec2f> vectors) {
   int x = floor(pos.x / scl);
   int y = floor(pos.y / scl);
   int index = x + y * cols;
-  ofVec2f force = vectors[index];
-  applyForce(force);
+  try {
+    ofVec2f force = vectors.at(index);
+    applyForce(force);
+  } catch (const std::out_of_range& e) {
+
+  }
 }
 
 void Particle::applyForce(ofVec2f force) {
@@ -30,10 +34,14 @@ void Particle::applyForce(ofVec2f force) {
 
 void Particle::show() {
   ofNoFill();
-  ofSetColor(h, 255, 255, 25);
-  h = (h + 1) % 255;
+  ofSetColor(h, 255, 255, 150);
+  h = h + 1;
+  if (h > 255) {
+    h = 0;
+  }
   ofSetLineWidth(1);
   ofDrawLine(pos.x, pos.y, prevPos.x, prevPos.y);
+  //ofDrawCircle(pos.x, pos.y, 2);
   updatePrev();
 }
 

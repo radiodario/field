@@ -21,11 +21,12 @@ class ofApp : public ofBaseApp{
     void windowResized(int w, int h);
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
-    float inc = 0.1;
+    float inc = 0.01;
     int scl = 10;
     float zoff = 0;
     int rows;
     int cols;
     vector<Particle> particles;
     vector<ofVec2f> flowfield;
+    const int NUM_PARTICLES = 2000;
 };
