@@ -22,7 +22,7 @@ void ofApp::setup(){
     flowfield.push_back(v);
   }
   ofLog(OF_LOG_NOTICE, "flowfield has " + ofToString(flowfield.size()) + " vectors");
-  ofBackground(51);
+  ofBackground(0);
   ofSetBackgroundAuto(false);
 }
 
@@ -47,6 +47,11 @@ void ofApp::update(){
     particles[i].follow(flowfield);
     particles[i].update();
     particles[i].edges();
+  }
+  if(doSaveScreen)
+  {
+    ofSaveScreen(ofToString(ofGetFrameNum())+".png");
+    doSaveScreen = false;
   }
 }
 
@@ -91,7 +96,7 @@ void ofApp::keyPressed(int key){
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-
+  doSaveScreen = true;
 }
 
 //--------------------------------------------------------------

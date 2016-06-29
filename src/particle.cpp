@@ -33,15 +33,15 @@ void Particle::applyForce(ofVec2f force) {
 }
 
 void Particle::show() {
-  ofNoFill();
-  ofSetColor(h, 255, 255, 25);
+  ofFill();
+  ofSetColor(255, 255, h, 25);
   h = h + 1;
   if (h > 255) {
     h = 0;
   }
   ofSetLineWidth(1);
   ofDrawLine(pos.x, pos.y, prevPos.x, prevPos.y);
-  //ofDrawCircle(pos.x, pos.y, 2);
+  //ofDrawCircle(pos.x, pos.y, 3);
   updatePrev();
 }
 
