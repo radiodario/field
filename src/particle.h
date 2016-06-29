@@ -8,7 +8,7 @@ class Particle {
     ofVec2f prevPos;
     ofVec2f vel;
     ofVec2f acc;
-    const int maxSpeed = 3;
+    const int maxSpeed = 4;
     int h = 0;
     int cols;
     int scl;

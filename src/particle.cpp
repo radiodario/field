@@ -34,7 +34,7 @@ void Particle::applyForce(ofVec2f force) {
 
 void Particle::show() {
   ofNoFill();
-  ofSetColor(h, 255, 255, 150);
+  ofSetColor(h, 255, 255, 25);
   h = h + 1;
   if (h > 255) {
     h = 0;

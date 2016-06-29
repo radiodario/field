@@ -23,7 +23,7 @@ void ofApp::setup(){
   }
   ofLog(OF_LOG_NOTICE, "flowfield has " + ofToString(flowfield.size()) + " vectors");
   ofBackground(51);
-  //ofSetBackgroundAuto(false);
+  ofSetBackgroundAuto(false);
 }
 
 //--------------------------------------------------------------
@@ -33,7 +33,7 @@ void ofApp::update(){
     float xoff = 0;
     for (int x = 0; x < cols; x++) {
       int index = x + y * cols;
-      float a = ofNoise(xoff, yoff, zoff) * TWO_PI * 10;
+      float a = ofNoise(xoff, yoff, zoff) * TWO_PI * 4;
       ofVec2f v1(cos(a) - sin(a), sin(a) + cos(a));
       ofVec2f v = v1.getNormalized();
       flowfield[index] = v;
@@ -52,25 +52,26 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-  //ofFill();
-  //ofSetColor(3, 3, 3, 10);
+  ofFill();
+  //ofSetColor(3, 3, 3, 1);
   //ofDrawRectangle(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
+  if (0) {
+    for (int y = 0; y < rows; y++) {
+      for (int x = 0; x < cols; x++) {
+        int index = x + y * cols;
+        try {
+          ofVec2f zero(1, 0);
+          ofVec2f v = flowfield.at(index);
+          ofPushMatrix();
+          ofTranslate(x * scl, y * scl);
+          ofRotate(zero.angle(v));
+          ofNoFill();
+          ofSetColor(255, 0, 255, 5);
+          ofDrawLine(0, 0, scl, 0);
+          ofPopMatrix();
+        } catch (const std::out_of_range& e) {
 
-  for (int y = 0; y < rows; y++) {
-    for (int x = 0; x < cols; x++) {
-      int index = x + y * cols;
-      try {
-        ofVec2f zero(1, 0);
-        ofVec2f v = flowfield.at(index);
-        ofPushMatrix();
-        ofTranslate(x * scl, y * scl);
-        ofRotate(zero.angle(v));
-        ofNoFill();
-        ofSetColor(255, 0, 255, 255);
-        ofDrawLine(0, 0, scl, 0);
-        ofPopMatrix();
-      } catch (const std::out_of_range& e) {
-
+        }
       }
     }
   }
