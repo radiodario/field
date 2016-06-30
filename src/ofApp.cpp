@@ -41,6 +41,7 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
   inc = incSlider;
+
   float yoff = 0;
   for (int y = 0; y < rows; y++) {
     float xoff = 0;

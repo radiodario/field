@@ -5,6 +5,7 @@
 
 Particle::Particle(int scl, int cols) {
   pos = ofVec2f(ofRandom(0, 1) * ofGetWindowWidth(), ofRandom(0, 1) * ofGetWindowHeight());
+
   prevPos = pos;
   this->scl = scl;
   this->cols = cols;
