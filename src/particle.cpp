@@ -22,7 +22,9 @@ void Particle::update() {
   vel.limit(maxSpeed);
   pos += vel;
   acc *= 0;
-  update3d();
+  if (((ofApp*) ofGetAppPtr())->onSphere) {
+    update3d();
+  }
 }
 
 void Particle::update3d() {
@@ -35,12 +37,12 @@ void Particle::update3d() {
       );
 }
 
-void Particle::follow(vector<ofVec2f> vectors) {
+void Particle::follow(vector<ofVec2f> forces) {
   int x = floor(pos.x / scl);
   int y = floor(pos.y / scl);
   int index = x + y * cols;
   try {
-    ofVec2f force = vectors.at(index);
+    ofVec2f force = forces.at(index);
     applyForce(force);
   } catch (const std::out_of_range& e) {
 
