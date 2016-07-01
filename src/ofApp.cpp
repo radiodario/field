@@ -2,7 +2,9 @@
 #include "math.h"
 //--------------------------------------------------------------
 void ofApp::setup(){
-
+  buffer.allocate(ofGetWindowWidth(), ofGetWindowHeight(), GL_RGBA);
+  imageSaver.allocate(ofGetWindowWidth(), ofGetWindowHeight(), OF_IMAGE_COLOR_ALPHA);
+  send.setName("Field");
   //* setup gui
   gui.setup();
   gui.add(incSlider.setup("x/y increase", 0.25, 0.0001, 0.5));
@@ -13,6 +15,8 @@ void ofApp::setup(){
   gui.add(fgAlpha.setup("fg alpha", 25, 0, 255));
   gui.add(forceSlider.setup("force", 4, 1, 10));
   gui.add(maxSpeedSlider.setup("max speed", 4, 1, 10));
+
+  gui.add(sendToSyphon.setup("Send to Syphon", false));
 
   int width = ofGetWindowWidth();
   int height = ofGetWindowHeight();
@@ -64,13 +68,17 @@ void ofApp::update(){
   }
   if(doSaveScreen)
   {
-    ofSaveScreen(ofToString(ofGetFrameNum())+".png");
+    ofPixels pixels;
+    buffer.readToPixels(pixels);
+    imageSaver.setFromPixels(pixels, ofGetWindowWidth(), ofGetWindowHeight(), OF_IMAGE_COLOR_ALPHA, true);
+    imageSaver.save(ofToString(ofGetFrameNum())+".png");
     doSaveScreen = false;
   }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+  buffer.begin();
   ofFill();
   ofSetColor(3, 3, 3, bgAlpha);
   ofDrawRectangle(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
@@ -107,6 +115,13 @@ void ofApp::draw(){
       particles.at(i).show(fgAlpha);
     }
   }
+  buffer.end();
+
+  buffer.draw(0, 0);
+  if (sendToSyphon) {
+    tex = buffer.getTexture();
+    send.publishTexture(&tex);
+  }
 
   gui.draw();
 
@@ -123,9 +138,10 @@ void ofApp::keyReleased(int key){
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
+void ofApp::mouseMoved(int x, int y){
 
 }
+
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){

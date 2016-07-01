@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "particle.h"
 #include "ofxGui.h"
+#include "ofxSyphon.h"
 
 class ofApp : public ofBaseApp{
 
@@ -23,7 +24,7 @@ class ofApp : public ofBaseApp{
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     float inc = 0.3;
-    int scl = 50;
+    int scl = 30;
     float zoff = 0;
     int rows;
     int cols;
@@ -35,15 +36,22 @@ class ofApp : public ofBaseApp{
     const int NUM_PARTICLES = 20000;
     bool doSaveScreen = false;
 
+    ofFbo buffer;
+    ofImage imageSaver;
+    ofTexture tex;
+
     // gui
     ofxPanel gui;
     ofxFloatSlider incSlider;
     ofxFloatSlider zincSlider;
     ofxToggle drawField;
     ofxToggle onSphere;
+    ofxToggle sendToSyphon;
 
     ofxIntSlider bgAlpha;
     ofxIntSlider fgAlpha;
     ofxIntSlider forceSlider;
     ofxIntSlider maxSpeedSlider;
+
+    ofxSyphonServer send;
 };

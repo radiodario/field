@@ -10,9 +10,9 @@ Particle::Particle(int scl, int cols) {
   this->scl = scl;
   this->cols = cols;
   color = ofColor(
-      ofRandom(0, 1) > 0.9 ? 200 : 0,
-      ofRandom(0, 1) > 0.9 ? 200 : 0,
-      ofRandom(0, 1) > 0.0 ? 255 : 0,
+      ofRandom(0, 1) > 0.2 ? 255 : 0,
+      ofRandom(0, 1) > 0.2 ? 255 : 0,
+      ofRandom(0, 1) > 0.5 ? 255 : 0,
       25
       );
 }
