@@ -4,6 +4,7 @@
 #include "particle.h"
 #include "ofxGui.h"
 #include "ofxSyphon.h"
+#include "ofxOsc.h"
 
 class ofApp : public ofBaseApp{
 
@@ -42,16 +43,24 @@ class ofApp : public ofBaseApp{
 
     // gui
     ofxPanel gui;
-    ofxFloatSlider incSlider;
-    ofxFloatSlider zincSlider;
+    ofParameter<float> incSlider;
+    ofParameter<float> zincSlider;
     ofxToggle drawField;
     ofxToggle onSphere;
     ofxToggle sendToSyphon;
 
-    ofxIntSlider bgAlpha;
-    ofxIntSlider fgAlpha;
-    ofxIntSlider forceSlider;
-    ofxIntSlider maxSpeedSlider;
+    ofParameter<int> bgAlpha;
+    ofParameter<int> fgAlpha;
+    ofParameter<int> forceSlider;
+    ofParameter<int> maxSpeedSlider;
+
+    ofParameter<int> red;
+    ofParameter<int> green;
+    ofParameter<int> blue;
+
+    ofParameter<float> randomicity;
 
     ofxSyphonServer send;
+
+    ofxOscReceiver receive;
 };

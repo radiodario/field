@@ -20,6 +20,23 @@ Particle::Particle(int scl, int cols) {
 void Particle::update() {
   vel += acc;
   maxSpeed = ((ofApp*) ofGetAppPtr())->maxSpeedSlider;
+  float colorPower = ((ofApp*) ofGetAppPtr())->randomicity;
+  if (colorPower == 1) {
+    color = ofColor(
+      ((ofApp*) ofGetAppPtr())->red * (colorPower * ofRandom(0, 1)),
+      ((ofApp*) ofGetAppPtr())->green * (colorPower * ofRandom(0, 1)),
+      ((ofApp*) ofGetAppPtr())->blue * (colorPower * ofRandom(0, 1)),
+      25
+    );
+  } else {
+    color = ofColor(
+      ((ofApp*) ofGetAppPtr())->red,
+      ((ofApp*) ofGetAppPtr())->green,
+      ((ofApp*) ofGetAppPtr())->blue,
+      25
+    );
+
+  }
   vel.limit(maxSpeed);
   pos += vel;
   acc *= 0;

@@ -2,21 +2,27 @@
 #include "math.h"
 //--------------------------------------------------------------
 void ofApp::setup(){
+  receive.setup(12345);
+  ofSetFrameRate(60);
   buffer.allocate(ofGetWindowWidth(), ofGetWindowHeight(), GL_RGBA);
   imageSaver.allocate(ofGetWindowWidth(), ofGetWindowHeight(), OF_IMAGE_COLOR_ALPHA);
   send.setName("Field");
   //* setup gui
   gui.setup();
-  gui.add(incSlider.setup("x/y increase", 0.25, 0.0001, 0.5));
-  gui.add(zincSlider.setup("z increase", 0.0003, 0.00001, 0.02));
+  gui.add(incSlider.set("x/y increase", 0.25, 0.0001, 0.5));
+  gui.add(zincSlider.set("z increase", 0.0003, 0.00001, 0.02));
   gui.add(drawField.setup("Draw Field", false));
-  gui.add(onSphere.setup("Draw Sphere", false));
-  gui.add(bgAlpha.setup("bg alpha", 1, 0, 255));
-  gui.add(fgAlpha.setup("fg alpha", 25, 0, 255));
-  gui.add(forceSlider.setup("force", 4, 1, 10));
-  gui.add(maxSpeedSlider.setup("max speed", 4, 1, 10));
+  gui.add(onSphere.setup("Draw Sphere", true));
+  gui.add(bgAlpha.set("bg alpha", 1, 0, 255));
+  gui.add(fgAlpha.set("fg alpha", 25, 0, 255));
+  gui.add(forceSlider.set("force", 4, 1, 10));
+  gui.add(maxSpeedSlider.set("max speed", 4, 1, 10));
+  gui.add(red.set("red", 255, 0, 255));
+  gui.add(green.set("green", 255, 0, 255));
+  gui.add(blue.set("blue", 255, 0, 255));
+  gui.add(randomicity.set("randomicity", 1, 0, 1));
 
-  gui.add(sendToSyphon.setup("Send to Syphon", false));
+  gui.add(sendToSyphon.setup("Send to Syphon", true));
 
   int width = ofGetWindowWidth();
   int height = ofGetWindowHeight();
@@ -44,6 +50,46 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+  while (receive.hasWaitingMessages()) {
+    ofxOscMessage m;
+    receive.getNextMessage(&m);
+    string msgAddress = m.getAddress();
+
+    ofLog(OF_LOG_NOTICE, msgAddress + " " + ofToString(m.getArgAsFloat(0)));
+    if (msgAddress == "/2/fader1") {
+        red =((int) (m.getArgAsFloat(0) * 255));
+    }
+
+    if (msgAddress == "/2/fader2") {
+        green = ((int) (m.getArgAsFloat(0) * 255));
+    }
+    if (msgAddress == "/2/fader3") {
+        blue = ((int) (m.getArgAsFloat(0) * 255));
+    }
+
+    if (msgAddress == "/2/fader8") {
+      randomicity = m.getArgAsFloat(0);
+    }
+
+    if (msgAddress == "/2/fader4") {
+      fgAlpha = ((int) (m.getArgAsFloat(0) * 255));
+    }
+    if (msgAddress == "/2/fader5") {
+      bgAlpha = ((int) (m.getArgAsFloat(0) * 255));
+    }
+
+    if (msgAddress == "/1/xy") {
+      incSlider = m.getArgAsFloat(0) * 0.5;
+      zincSlider = m.getArgAsFloat(1) * 0.02;
+    }
+
+    if (msgAddress == "/1/fader1") {
+      forceSlider = (int) (m.getArgAsFloat(0) * 10);
+    }
+    if (msgAddress == "/1/fader2") {
+      maxSpeedSlider = (int) (m.getArgAsFloat(0) * 10);
+    }
+  }
   inc = incSlider;
 
   float yoff = 0;
